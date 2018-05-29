@@ -23,15 +23,23 @@ namespace contactBook
     {
         static void Main(string[] args)
         {
-            int userChoice;
-
             Console.WriteLine("Hello! Welcome to the Address Book!");
+
+            Menu();
+        }
+
+        public static void Menu()
+        {
+            int userChoice;// Switch conditional.
+            string s_contact; // Search contact var.
+
             Console.WriteLine("-----------------------------------");
             Console.WriteLine("Please choose an option from below:(Only option 1 currently works)");
             Console.WriteLine("1. Create Contact");
             Console.WriteLine("2. Search for Contact");
             Console.WriteLine("3. Edit Contact");
             Console.WriteLine("4. Delete Contact");
+            Console.WriteLine("5. Exit");
 
             userChoice = Int32.Parse(Console.ReadLine());
 
@@ -42,6 +50,9 @@ namespace contactBook
                     break;
 
                 case 2:
+                    Console.WriteLine("Please provide either a name, phone number, or address: ");
+                    s_contact = Console.ReadLine();
+                    SearchContact(s_contact);
                     break;
 
                 case 3:
@@ -49,11 +60,13 @@ namespace contactBook
 
                 case 4:
                     break;
+                case 5:
+                    Environment.Exit(0);
+                    break;
 
                 default:
                     break;
             }
-
         }
 
         public static void CreateContact()
@@ -62,19 +75,34 @@ namespace contactBook
             long PhoneNum;
             string Address;
             
-
-            //FileStream f = new FileStream("ContactBook.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
             StreamWriter f = new StreamWriter("ContactBool.txt");
 
             Console.WriteLine("Please enter your name, phone number, and address: ");
             Name = Console.ReadLine();
             PhoneNum = Int64.Parse(Console.ReadLine());
             Address = Console.ReadLine();
-            //8,503,681,062
+            
             f.WriteLine(Name);
             f.WriteLine(PhoneNum);
             f.WriteLine(Address);
             f.WriteLine("");
+            f.Close();
+
+            Menu();
+        }
+
+        public static void SearchContact(string contact)
+        {
+            StreamReader read = new StreamReader("ContactBool.txt");
+
+            while(!read.EndOfStream || read.ReadLine() != contact)
+            {
+
+            }
+
+
+
+            Menu();
         }
     }
 }
