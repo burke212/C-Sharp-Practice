@@ -6,6 +6,7 @@ This repository contains different, small C# projects I've worked on.
 # input
 This project simply takes in a sentence & prints the reverse. 
 
+
 # Dog Food Bowl Automation Machine Simulator
 This project simulates a system that periodically checks the weight of a bowl (dog bowl, candy dish...) and adds more food if the weight is under a certain threshold. 
 
