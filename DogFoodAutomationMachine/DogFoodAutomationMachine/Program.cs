@@ -8,35 +8,20 @@ namespace DogFoodAutomationMachine
 {
     class Program
     {
-        const int FULL = 10;
-        private int mTimer=0;
-        private bool M_CanReleaseFood = false;
+        const int FULL = 10; // Represents max bowl weight.
 
         static void Main(string[] args)
         {
             CanReleaseFood();
         }
 
-        //static void Timer()
-        //{
-        //    /*
-        //     timer = 1hr
-        //     while(timer != 0)
-        //        timer - 1sec
-        //     timer alarm
-        //     */
 
-        //    Timer timer = new Timer();
-        //    timer.Elapsed += new ElapsedEventHandler();
-        //    //timer.Interval = 3600000;// 1 hour
-        //    timer.Interval = 5000;// 5 seconds
-        //    timer.Enabled = true;
-        //}
 
+
+        // Returns a random value that acts as the weight in the bowl.
         static double GetWeight()
         {
             Random rand = new Random();
-            // every 10 sec, check weight.
             double w = rand.Next(0, FULL+1);
 
             return w;
@@ -45,55 +30,58 @@ namespace DogFoodAutomationMachine
         // Checks bowl weight every Interval.
         static void CanReleaseFood()
         {
-            Console.WriteLine("/nTimer has begun.");
+            Console.WriteLine("Timer has begun.");
             Console.WriteLine("When finished, enter 'q' to quit the program.");
+
             Timer aTimer = new Timer();// Creates aTimer object
 
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent); // OnTimedEvent is the event/ thing that is called after Interval has passed 
-            aTimer.Interval = 10000; // The duration to wait until the ElapsedEventHandler event is called.
+            aTimer.Interval = 3000; // The duration to wait until the ElapsedEventHandler event is called.
             aTimer.Enabled = true; // "Starts" the Interval
 
-            while (Console.Read() != 'q') ;
+            while (Console.Read() != 'q'); // Conditional to end simulator loop.
         }
         
-        // Determines if bowl needs filling by getting bowl weight. 
+        // Determines if bowl needs filling. 
         static void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            Program obj = new Program();
+            bool CRF = false; // Conditional to allow refilling of bowl.
             double weight = GetWeight();
 
-            Console.WriteLine("Weight: {0}", weight);
+            Console.WriteLine("\nWeight: {0}", weight);
 
-            // Bowl is empty
+            // Bowl is empty.
             if (weight == 0)
             {
                 Console.WriteLine("Bowl is empty...");
-                
-                obj.M_CanReleaseFood = true;
+
+                CRF = true;
+                ReleaseFood(CRF);
             }
-            // if bowl is less than half full
+            // Bowl is less than half full.
             else if (weight < (FULL / 2))
             {
                 Console.WriteLine("Bowl is less than half full...");
-                obj.M_CanReleaseFood = true;
+
+                CRF = true;
+                ReleaseFood(CRF);
             }
-            // Bowl doesn't need filling
+            // Bowl doesn't need filling.
             else
             {
-                obj.M_CanReleaseFood = false;
+                CRF = false;
             }
-            ReleaseFood();
+            
         }
 
-        static void ReleaseFood()
+        // Activates Rotation Blades given certain conditions.
+        static void ReleaseFood(bool CanRelease)
         {
-            Program obj = new Program();
             double weight = GetWeight();
 
-            if(obj.M_CanReleaseFood == true)
+            if(CanRelease == true)
             {
-                // Release food. 
-                Console.WriteLine("Adding food");
+                Console.WriteLine("\nAdding food");
 
                 // Add weight until it's half full
                 while(weight < (FULL / 2))
@@ -103,6 +91,7 @@ namespace DogFoodAutomationMachine
             }
         }
 
+        // Simulates the internal blades rotating & adding food. 
         static void ActivateRB(ref double weight)
         {
             Random rand = new Random();
@@ -110,8 +99,10 @@ namespace DogFoodAutomationMachine
 
             nw = rand.Next(0, 11);
             weight += nw;
-
-            Console.WriteLine("New Weight: {0}", weight);
+            if(weight > 0)
+            {
+                Console.WriteLine("New Weight: {0}", weight);
+            }
         }
     }
 }
