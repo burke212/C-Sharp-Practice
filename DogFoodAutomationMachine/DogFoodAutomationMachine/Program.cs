@@ -33,7 +33,7 @@ namespace DogFoodAutomationMachine
             Console.WriteLine("Timer has begun.");
             Console.WriteLine("When finished, enter 'q' to quit the program.");
 
-            Timer aTimer = new Timer();// Creates aTimer object
+            Timer aTimer = new Timer();// Creates aTimer object.
 
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent); // OnTimedEvent is the event/ thing that is called after Interval has passed 
             aTimer.Interval = 3000; // The duration to wait until the ElapsedEventHandler event is called.
